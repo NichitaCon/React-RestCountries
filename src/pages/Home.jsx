@@ -26,9 +26,11 @@ export default function Home () {
     });
 
     return (
-        <div>
-            <h1>Home</h1>
-            {countryCards}
+        <div className="container mx-auto px-4 py-8">
+            <h1 className="text-3xl font-bold text-center mb-8">Home</h1>
+            <div className="grid grid-cols-3 gap-12 justify-items-center max-w-6xl mx-auto">
+                {countryCards}
+            </div>
         </div>
     );
 };
