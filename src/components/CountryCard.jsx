@@ -1,3 +1,5 @@
+import { Link } from 'react-router';
+
 export default function CountryCard({ flagImg, name, capital }) {
   return (
     <>
@@ -11,7 +13,7 @@ export default function CountryCard({ flagImg, name, capital }) {
             {name}'s capital is {capital.join(", ")}.
           </p>
           <div className="card-actions justify-end">
-            <button className="btn btn-primary">More details (LINK ME LATER :P)</button>
+            <Link to={`/country/${name}`} className="btn btn-primary">More details</Link>
           </div>
         </div>
       </div>
