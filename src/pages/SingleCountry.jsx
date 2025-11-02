@@ -46,7 +46,7 @@ export default function SingleCountry() {
                             {country.name.common}
                         </h1>
                         <p className="py-6">
-                            find api that includes country desc here!
+                            {country.name.common}  {(country.landlocked) ? ("is ") : ("is'nt ")} a landlocked country in {country.region} which has a population of {country.population} million, located in the {country.timezones} timezone.
                         </p>
                         {/* <button className="btn btn-primary">Get Started</button> */}
                     </div>
