@@ -2,14 +2,17 @@ import { Link } from 'react-router';
 import { motion } from 'framer-motion';
 
 export default function CountryCard({ flagImg, name, capital, index }) {
+  // Only animate first 30 cards
+  const shouldAnimate = index < 30;
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={shouldAnimate ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ 
-        duration: 0.5, 
+        duration: shouldAnimate ? 0.5 : 0, 
         ease: "easeOut",
-        delay: index * 0.04 
+        delay: shouldAnimate ? index * 0.04 : 0
       }}
       className="card bg-gray-800 w-96 shadow-sm"
     >
