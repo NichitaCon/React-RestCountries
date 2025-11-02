@@ -39,9 +39,10 @@ export default function SingleCountry() {
     useEffect(() => {
         if (country && country.currencies) {
             const currencyCode = Object.keys(country.currencies)[0];
+
             axios
                 .get(
-                    `https://api.exchangerate.host/convert?from=EUR&to=${currencyCode}&amount=1&access_key=387d05a7415fb53062718282321e3f3c`
+                    `https://v6.exchangerate-api.com/v6/c9de8042ac89deacd12fe2d1/pair/EUR/${currencyCode}/1`
                 )
                 .then((ExchangeResponse) => {
                     console.log("exchange response:", ExchangeResponse.data);
@@ -49,7 +50,7 @@ export default function SingleCountry() {
                 })
                 .catch((error) => {
                     setExchangeRate("error");
-                    console.error("Exchange api error:", error)
+                    console.error("Exchange API error:", error);
                 });
         }
     }, [country]);
@@ -58,8 +59,7 @@ export default function SingleCountry() {
         return (
             <div className="hero bg-base-200 min-h-[60vh]">
                 <div className="hero-content flex-col lg:flex-row-reverse">
-                    {/* <div className="skeleton min-w-[80vh] min-h-[60vh]"></div> */}
-                    <span class="loading loading-ring loading-xl"></span>
+                    <span className="loading loading-ring loading-xl"></span>
                 </div>
             </div>
         );
@@ -67,19 +67,6 @@ export default function SingleCountry() {
 
     const currencyCode = Object.keys(country.currencies)[0];
     const currencyInfo = country.currencies[currencyCode];
-
-    // console.log(country.currencies["EGP"]);
-    // console.log(Object.keys(country.currencies));
-
-    // let currencies = Object.keys(country.currencies).map((currency) => {
-    //     return (
-    //         <p>
-    //             <b>Code: </b> {currency} <br />
-    //             <b>Name: </b> {country.currencies[currency].name} <br />
-    //             <b>Symbol: </b> {country.currencies[currency].symbol}
-    //         </p>
-    //     );
-    // });
 
     return (
         <>
@@ -107,7 +94,6 @@ export default function SingleCountry() {
                             people. {country.name.common} is located in the{" "}
                             {country.timezones[0]} timezone.
                         </p>
-                        {/* <button className="btn btn-primary">Get Started</button> */}
                     </div>
                 </motion.div>
             </div>
@@ -131,12 +117,12 @@ export default function SingleCountry() {
                         {weather.current_units.temperature_2m}
                     </p>
                     <p>
-                        Chance of precipitation is
+                        Chance of precipitation is{" "}
                         {weather.current.precipitation_probability < 30
-                            ? " low "
+                            ? "low"
                             : weather.current.precipitation_probability < 60
-                            ? " medium "
-                            : " high "}
+                            ? "medium"
+                            : "high"}{" "}
                         ({weather.current.precipitation_probability}%)
                     </p>
                 </div>
@@ -149,28 +135,13 @@ export default function SingleCountry() {
                         The currency in {country.name.common} is the{" "}
                         {currencyInfo.name} ({currencyCode})
                     </p>
-                    
                     <p>
-                        {exchangeRate === "error" 
-                            ? "Cannot convert to EUR, too many API requests :(" 
-                            : `1 Euro converts to ${exchangeRate.result} ${exchangeRate.query.to}`
-                        }
+                        {exchangeRate === "error"
+                            ? "Cannot convert to EUR, API error."
+                            : `1 Euro converts to ${exchangeRate.conversion_rate} ${currencyCode}`}
                     </p>
                 </div>
             </motion.div>
-            {/* <img src={country.flags.png} />
-            <p>
-                <b>Name:</b> {country.name.common}
-            </p>
-            <p>
-                <b>Official Name:</b> {country.name.official}
-            </p>
-            <p>
-                <b>Capital(s):</b> {country.capital.join(", ")}
-            </p>
-            <h2>Currencies:</h2>
-            {currencies}
-            <img src={country.coatOfArms.png} /> */}
         </>
     );
 }
