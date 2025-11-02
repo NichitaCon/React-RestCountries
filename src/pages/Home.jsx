@@ -23,13 +23,14 @@ export default function Home({ searchTerm }) {
             .includes(searchTerm.toLowerCase());
     });
 
-    let countryCards = filteredCountries.map((country) => {
+    let countryCards = filteredCountries.map((country, index) => {
         return (
             <CountryCard
                 key={country.cca3}
                 flagImg={country.flags.png}
                 name={country.name.common}
                 capital={country.capital}
+                index={index}
             />
         );
     });
@@ -37,7 +38,7 @@ export default function Home({ searchTerm }) {
     return (
         <div className="container mx-auto px-4 py-8">
             {/* <h1 className="text-3xl font-bold text-center mb-8">Home</h1> */}
-            {filteredCountries.length === 0 ? (
+            {filteredCountries.length === 0 && searchTerm.length > 0 ? (
                 <p className="text-center text-xl text-gray-400">
                     No countries found matching "{searchTerm}"
                 </p>

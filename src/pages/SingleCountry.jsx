@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
+import { motion } from "framer-motion";
 
 export default function SingleCountry() {
     const { name } = useParams();
@@ -46,7 +47,10 @@ export default function SingleCountry() {
                     console.log("exchange response:", ExchangeResponse.data);
                     setExchangeRate(ExchangeResponse.data);
                 })
-                .catch((error) => console.error("Exchange api error:", error));
+                .catch((error) => {
+                    setExchangeRate("error");
+                    console.error("Exchange api error:", error)
+                });
         }
     }, [country]);
 
@@ -55,6 +59,7 @@ export default function SingleCountry() {
             <div className="hero bg-base-200 min-h-[60vh]">
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     {/* <div className="skeleton min-w-[80vh] min-h-[60vh]"></div> */}
+                    <span class="loading loading-ring loading-xl"></span>
                 </div>
             </div>
         );
@@ -80,7 +85,12 @@ export default function SingleCountry() {
         <>
             {/* hero section */}
             <div className="hero bg-base-200 min-h-[60vh]">
-                <div className="hero-content flex-col lg:flex-row-reverse">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    className="hero-content flex-col lg:flex-row-reverse"
+                >
                     <img
                         src={country.coatOfArms.png}
                         className="max-w-sm rounded-lg shadow-2xl"
@@ -99,11 +109,16 @@ export default function SingleCountry() {
                         </p>
                         {/* <button className="btn btn-primary">Get Started</button> */}
                     </div>
-                </div>
+                </motion.div>
             </div>
 
             {/* half and half section */}
-            <div className="container mx-auto flex flex-row justify-between gap-8 p-8">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+                className="container mx-auto flex flex-row justify-between gap-8 p-8"
+            >
                 <div className="flex-1">
                     <h2 className="text-4xl font-bold flex justify-center mb-8">
                         Weather stats
@@ -134,12 +149,15 @@ export default function SingleCountry() {
                         The currency in {country.name.common} is the{" "}
                         {currencyInfo.name} ({currencyCode})
                     </p>
+                    
                     <p>
-                        1 Euro converts to {exchangeRate.result}{" "}
-                        {exchangeRate.query.to}
+                        {exchangeRate === "error" 
+                            ? "Cannot convert to EUR, too many API requests :(" 
+                            : `1 Euro converts to ${exchangeRate.result} ${exchangeRate.query.to}`
+                        }
                     </p>
                 </div>
-            </div>
+            </motion.div>
             {/* <img src={country.flags.png} />
             <p>
                 <b>Name:</b> {country.name.common}
